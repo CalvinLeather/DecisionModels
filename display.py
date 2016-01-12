@@ -9,7 +9,10 @@ import seaborn as sns
 import numpy as np
 
 def get_name(items, winner):
-    return items[winner][0] + ' ' + items[winner][1]
+    if winner == 'timeout':
+        return 'time out'
+    else:
+        return items[winner][0] + ' ' + items[winner][1]
     
 def plot3(items, names, winner, item_accumulator, history, p_look):
     n_items = len(items)
@@ -32,4 +35,12 @@ def plot3(items, names, winner, item_accumulator, history, p_look):
         cx.plot(p_look[i], label= get_name(items, i))
         plt.title('Luce model of p(look). Winner = ' +  get_name(items, winner))
         plt.legend()
+    return 1
+    
+def hist_plot(end_times, history, items):
+    history = np.asarray(history,dtype=np.string0)
+    end_times = np.asarray(end_times)
+    sns.kdeplot(np.asarray(end_times[history=='1']), color='r') #items[1]
+    sns.kdeplot(np.asarray(end_times[history=='0']), color = 'b') #items[0]
+    plt.legend(loc='upper right')
     return 1
